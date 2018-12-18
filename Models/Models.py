@@ -12,6 +12,7 @@ class Car:
             self.__total_price = None
             self.__car_num = None
             self.__costumer_name = None
+            self.__memo = None
         elif len(args) == 1:
             args = str(args)
             attrs = args.split(" ")
