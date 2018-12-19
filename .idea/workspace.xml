@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed734d87-d3d0-4c32-a5c6-f4c0caef0679" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/View/DBManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/View/DBManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/View/DisplayDataWrapper.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/View/ParserWrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/View/ParserWrapper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/View/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/View/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/View/main_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/View/main_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/View/populate.py" beforeDir="false" afterPath="$PROJECT_DIR$/View/populate.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,14 +38,14 @@
         <counts>
           <entry key="csv" value="2" />
           <entry key="dummy" value="41" />
-          <entry key="py" value="9988" />
+          <entry key="py" value="10113" />
           <entry key="txt" value="23" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="66" />
-          <entry key="Python" value="9988" />
+          <entry key="Python" value="10113" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -132,12 +125,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/View/main_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="241" column="30" selection-start-line="241" selection-start-column="30" selection-end-line="241" selection-end-column="30" />
+            <state relative-caret-position="355">
+              <caret line="46" column="44" selection-start-line="46" selection-start-column="44" selection-end-line="46" selection-end-column="44" />
               <folding>
                 <element signature="e#198#251#0" expanded="true" />
-                <marker date="1545210286620" expanded="true" signature="383:519" ph="..." />
-                <marker date="1545210286620" expanded="true" signature="12418:12700" ph="..." />
+                <marker date="1545214685960" expanded="true" signature="383:519" ph="..." />
+                <marker date="1545214685960" expanded="true" signature="12552:12839" ph="..." />
               </folding>
             </state>
           </provider>
@@ -413,14 +406,14 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3299285" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5866534" visible="true" weight="0.14811032" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4955864" weight="0.39938712" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.58466136" visible="true" weight="0.14811032" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4950199" weight="0.39938712" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49833888" weight="0.3299285" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.41334662" side_tool="true" visible="true" weight="0.14811032" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.82171315" weight="0.3299285" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.41533864" side_tool="true" visible="true" weight="0.14811032" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -526,12 +519,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/View/main_view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="241" column="30" selection-start-line="241" selection-start-column="30" selection-end-line="241" selection-end-column="30" />
+        <state relative-caret-position="355">
+          <caret line="46" column="44" selection-start-line="46" selection-start-column="44" selection-end-line="46" selection-end-column="44" />
           <folding>
             <element signature="e#198#251#0" expanded="true" />
-            <marker date="1545210286620" expanded="true" signature="383:519" ph="..." />
-            <marker date="1545210286620" expanded="true" signature="12418:12700" ph="..." />
+            <marker date="1545214685960" expanded="true" signature="383:519" ph="..." />
+            <marker date="1545214685960" expanded="true" signature="12552:12839" ph="..." />
           </folding>
         </state>
       </provider>
