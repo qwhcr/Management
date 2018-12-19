@@ -72,6 +72,12 @@ class Car:
     def set_costumer_name(self, costumer: str):
         self.__costumer_name = costumer
 
+    def get_memo(self):
+        return self.__memo
+
+    def set_memo(self, memo: str):
+        self.__memo = memo
+
     def __str__(self):
         return str(self.get_date()).split(" ")[0],  self.get_brand_name()\
             , self.get_weight(), "吨 ", self.get_price(), "元/吨 总计：", self.get_total_price()\
