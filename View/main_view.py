@@ -10,6 +10,17 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem
 from View.DBManager import DatabaseManager
 
+def sort_by_date(val):
+    return val[2]
+
+
+def sort_by_month(val):
+    return val[1]
+
+
+def sort_by_year(val):
+    return val[0]
+
 class Ui_MainWindow(object):
 
     def __init__(self):
@@ -203,6 +214,9 @@ class Ui_MainWindow(object):
         # print(self.filtered_data)
         self.filter_by_type()
         # print(self.filtered_data)
+        self.filtered_data.sort(key = sort_by_date)
+        self.filtered_data.sort(key = sort_by_month)
+        self.filtered_data.sort(key = sort_by_year)
         self.tableWidget.setRowCount(len(self.filtered_data))
         for i in self.filtered_data:
             self.tableWidget.setItem(row, 0
@@ -222,11 +236,75 @@ class Ui_MainWindow(object):
         c = self.tableWidget.columnCount()
         temp = []
         for i in range(0, r):
-            sub_temp = ()
-            for j in range(0, c):
-                if self.tableWidget.item(i,j):
-                    #TODO: implement save
-                    pass
+            sub_temp = []
+            date = self.tableWidget.item(i,0).text()
+            for element in date.split('/'):
+                sub_temp.append(int(element))
+            sub_temp.append(self.tableWidget.item(i,1).text())
+            sub_temp.append(self.tableWidget.item(i, 2).text())
+            sub_temp.append(self.listWidget.selectedItems()[0].text())
+            sub_temp.append(float(self.tableWidget.item(i, 3).text()))
+            sub_temp.append(float(self.tableWidget.item(i, 4).text()))
+            sub_temp.append(self.tableWidget.item(i, 6).text())
+            selection = self.comboBox_type_select.currentText()
+            if selection == '水泥':
+                selection = 0
+            else:
+                selection = 1
+            sub_temp.append(selection)
+            temp.append(sub_temp)
+        cur_customer = self.listWidget.selectedItems()[0].text()
+        cur_year = self.comboBox_year_select.currentText()
+        cur_month = self.comboBox_month_select.currentText()
+        cur_type = self.comboBox_type_select.currentText()
+        if cur_type ==  '水泥':
+            cur_type = 0
+        else:
+            cur_type = 1
+        print(self.data)
+        for i in self.data:
+            if i[5] == cur_customer:
+                if cur_year!='查看所有年份':
+                    if i[0] == cur_year:
+                        if cur_month != '查看所有月份':
+                            if i[1] == cur_month:
+                                if i[9] == cur_type:
+                                    self.data.remove(i)
+                elif cur_month != '查看所有月份':
+                    if i[1] == cur_month:
+                        if i[9] == cur_type:
+                            self.data.remove(i)
+                else:
+                    if i[9] == cur_type:
+                        self.data.remove(i)
+        for i in temp:
+            self.data.append(tuple(i))
+        # if cur_year != '查看所有年份':
+        #     if cur_month != '查看所有月份':
+        command = f"DELETE FROM ORDERS WHERE Customer='{cur_customer}' AND Type={cur_type}"
+        # elif cur_month != '查看所有月份':
+        #     command = f"DELETE FROM ORDERS WHERE Customer='{cur_customer}' AND Type={cur_type} AND Year={cur_year}"
+        # else:
+        #     command = f"DELETE FROM ORDERS WHERE Customer='{cur_customer}' AND Type={cur_type} AND Year={cur_year} AND Month={cur_month}"
+        self.DBManager.execute(command)
+        self.DBManager.commit()
+        for i in self.data:
+            command = f'''INSERT INTO ORDERS VALUES (
+            {i[0]}, 
+            {i[1]},
+            {i[2]},
+            '{i[3]}',
+            '{i[4]}',
+            '{i[5]}',
+            {float(i[6])},
+            {float(i[7])},
+            '{i[8]}',
+            {i[9]})
+            '''
+            self.DBManager.execute(command)
+        self.DBManager.commit()
+
+
 
     def filter_by_month(self):
         selection = self.comboBox_month_select.currentText()
@@ -262,3 +340,4 @@ class Ui_MainWindow(object):
             if i[9] == selection:
                 temp_data.append(i)
         self.filtered_data = temp_data
+

@@ -38,14 +38,14 @@
         <counts>
           <entry key="csv" value="2" />
           <entry key="dummy" value="41" />
-          <entry key="py" value="10113" />
+          <entry key="py" value="11523" />
           <entry key="txt" value="23" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="66" />
-          <entry key="Python" value="10113" />
+          <entry key="Python" value="11523" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -112,8 +112,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/View/populate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
+            <state relative-caret-position="540">
+              <caret line="36" column="11" lean-forward="true" selection-start-line="25" selection-start-column="8" selection-end-line="36" selection-end-column="11" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
                 <marker date="1545206984321" expanded="true" signature="40:42" ph="..." />
@@ -125,12 +125,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/View/main_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="46" column="44" selection-start-line="46" selection-start-column="44" selection-end-line="46" selection-end-column="44" />
+            <state relative-caret-position="1695">
+              <caret line="217" column="51" selection-start-line="217" selection-start-column="51" selection-end-line="217" selection-end-column="51" />
               <folding>
                 <element signature="e#198#251#0" expanded="true" />
-                <marker date="1545214685960" expanded="true" signature="383:519" ph="..." />
-                <marker date="1545214685960" expanded="true" signature="12552:12839" ph="..." />
+                <marker date="1545225483306" expanded="true" signature="439:459" ph="..." />
+                <marker date="1545225483306" expanded="true" signature="512:648" ph="..." />
+                <marker date="1545225483306" expanded="true" signature="15509:15798" ph="..." />
               </folding>
             </state>
           </provider>
@@ -177,6 +178,8 @@
       <find>DATE</find>
       <find>list</find>
       <find>text</find>
+      <find>print</find>
+      <find>save</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -406,14 +409,14 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3299285" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.58466136" visible="true" weight="0.14811032" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4950199" weight="0.39938712" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5816733" visible="true" weight="0.14811032" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49402392" weight="0.39938712" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.82171315" weight="0.3299285" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.41533864" side_tool="true" visible="true" weight="0.14811032" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.8197211" weight="0.3299285" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.4183267" side_tool="true" visible="true" weight="0.14811032" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -446,18 +449,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/View/ParserWrapper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <marker date="1545198530309" expanded="true" signature="89:431" ph="..." />
-            <marker date="1545198530309" expanded="true" signature="653:658" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/View/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -475,13 +466,6 @@
           <folding>
             <marker date="1545188009370" expanded="true" signature="2174:2207" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/file/11-水泥.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="36" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
         </state>
       </provider>
     </entry>
@@ -506,10 +490,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/file/11-水泥.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="36" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/View/ParserWrapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+            <marker date="1545198530309" expanded="true" signature="89:431" ph="..." />
+            <marker date="1545198530309" expanded="true" signature="653:658" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/View/populate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
+        <state relative-caret-position="540">
+          <caret line="36" column="11" lean-forward="true" selection-start-line="25" selection-start-column="8" selection-end-line="36" selection-end-column="11" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <marker date="1545206984321" expanded="true" signature="40:42" ph="..." />
@@ -519,12 +522,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/View/main_view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="46" column="44" selection-start-line="46" selection-start-column="44" selection-end-line="46" selection-end-column="44" />
+        <state relative-caret-position="1695">
+          <caret line="217" column="51" selection-start-line="217" selection-start-column="51" selection-end-line="217" selection-end-column="51" />
           <folding>
             <element signature="e#198#251#0" expanded="true" />
-            <marker date="1545214685960" expanded="true" signature="383:519" ph="..." />
-            <marker date="1545214685960" expanded="true" signature="12552:12839" ph="..." />
+            <marker date="1545225483306" expanded="true" signature="439:459" ph="..." />
+            <marker date="1545225483306" expanded="true" signature="512:648" ph="..." />
+            <marker date="1545225483306" expanded="true" signature="15509:15798" ph="..." />
           </folding>
         </state>
       </provider>
