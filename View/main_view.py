@@ -6,6 +6,10 @@
 #
 # WARNING! All changes made in this file will be lost!
 import sys
+import os
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(rootPath)
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog, QAction
 from View.DBManager import DatabaseManager
@@ -343,7 +347,6 @@ class Ui_MainWindow(object):
 
 
     def filter_by_month(self):
-        self.pushButton_export.setDisabled(True)
         selection = self.comboBox_month_select.currentText()
         if '月' not in selection:
             return
@@ -353,7 +356,6 @@ class Ui_MainWindow(object):
         # print(month)
         temp_data = []
         for i in self.filtered_data:
-            print("1" + month)
             if i[1] == int(month):
                 temp_data.append(i)
         self.filtered_data = temp_data
