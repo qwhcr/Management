@@ -4,3 +4,4 @@
 /View/__pycache__
 .DS_Store
 *.sqlite
+/View/*.xlsx

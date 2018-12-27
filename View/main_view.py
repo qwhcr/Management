@@ -132,12 +132,14 @@ class Ui_MainWindow(object):
         self.actionExport.setObjectName("actionExport")
 
         self.pushButton_save.setDisabled(True)
+        self.pushButton_export.setDisabled(True)
 
         self.listWidget.itemSelectionChanged.connect(self.selection_changed)
         self.pushButton_save.clicked.connect(self.save_table)
         self.comboBox_month_select.currentTextChanged.connect(self.selection_changed)
         self.comboBox_year_select.currentTextChanged.connect(self.selection_changed)
         self.comboBox_type_select.currentTextChanged.connect(self.selection_changed)
+        self.pushButton_export.clicked.connect(self.export)
 
         self.retranslateUi(MainWindow)
         self.set_main_window_data()
@@ -202,6 +204,12 @@ class Ui_MainWindow(object):
             return;
         self.tableWidget.clearContents()
         self.pushButton_save.setDisabled(False)
+        cur_year = self.comboBox_year_select.currentText()
+        cur_month = self.comboBox_month_select.currentText()
+        if cur_month != '查看所有月份' and cur_year != '查看所有年份':
+            self.pushButton_export.setDisabled(False)
+        else:
+            self.pushButton_export.setDisabled(True)
         customer_name = self.listWidget.selectedItems()[0].text()
         self.label_customer_name_data.setText(customer_name)
         self.data = self.DBManager.get_data(customer_name)
@@ -261,24 +269,33 @@ class Ui_MainWindow(object):
             cur_type = 0
         else:
             cur_type = 1
-        print(self.data)
+        # print(self.data)
+        to_remove = []
         for i in self.data:
+            # print(i[5] == cur_customer)
             if i[5] == cur_customer:
                 if cur_year!='查看所有年份':
                     if i[0] == cur_year:
                         if cur_month != '查看所有月份':
                             if i[1] == cur_month:
                                 if i[9] == cur_type:
-                                    self.data.remove(i)
+                                    to_remove.append(i)
                 elif cur_month != '查看所有月份':
                     if i[1] == cur_month:
                         if i[9] == cur_type:
-                            self.data.remove(i)
+                            to_remove.append(i)
                 else:
                     if i[9] == cur_type:
-                        self.data.remove(i)
+                        # print('-')
+                        to_remove.append(i)
+        for i in to_remove:
+            self.data.remove(i)
+        # print('after delete')
+        # print(self.data)
         for i in temp:
             self.data.append(tuple(i))
+        # print('after addition')
+        # print(self.data)
         # if cur_year != '查看所有年份':
         #     if cur_month != '查看所有月份':
         command = f"DELETE FROM ORDERS WHERE Customer='{cur_customer}' AND Type={cur_type}"
@@ -341,3 +358,15 @@ class Ui_MainWindow(object):
                 temp_data.append(i)
         self.filtered_data = temp_data
 
+    def export(self):
+        cur_year = int(self.comboBox_year_select.currentText().strip('年').strip(' '))
+        cur_month = int(self.comboBox_month_select.currentText().strip('月').strip(' '))
+        cur_type = self.comboBox_type_select.currentText()
+        if cur_type ==  '水泥':
+            cur_type = 0
+        else:
+            cur_type = 1
+        command = f'SELECT * FROM ORDERS WHERE Year={cur_year} AND Month={cur_month} AND Type={cur_type}'
+        self.DBManager.execute(command)
+        result = self.DBManager.fetch_all()
+        print(len(result))
