@@ -5,10 +5,15 @@
 # Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
-
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog, QAction
 from View.DBManager import DatabaseManager
+from View.XlsxWriter import export_file
+from View.ParserWrapper import read_from_file
+from PyQt5.QtGui import QIcon
+from View.main_ import main_window
+selected_file_name = ''
 
 def sort_by_date(val):
     return val[2]
@@ -28,7 +33,6 @@ class Ui_MainWindow(object):
         self.DBManager = DatabaseManager()
         self.data = None
         self.filtered_data = None
-
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -106,6 +110,12 @@ class Ui_MainWindow(object):
         self.pushButton_save = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_save.setGeometry(QtCore.QRect(1090, 25, 113, 31))
         self.pushButton_save.setObjectName("pushButton_save")
+        self.pushButton_delete = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_delete.setGeometry(QtCore.QRect(1290, 25, 113, 31))
+        self.pushButton_delete.setObjectName("pushButton_delete")
+        self.pushButton_refresh = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_refresh.setGeometry(QtCore.QRect(1190, 25, 113, 31))
+        self.pushButton_refresh.setObjectName("pushButton_refresh")
         self.label_monthly_total = QtWidgets.QLabel(self.centralwidget)
         self.label_monthly_total.setGeometry(QtCore.QRect(400, 50, 91, 16))
         self.label_monthly_total.setObjectName("label_monthly_total")
@@ -133,13 +143,17 @@ class Ui_MainWindow(object):
 
         self.pushButton_save.setDisabled(True)
         self.pushButton_export.setDisabled(True)
+        self.pushButton_delete.setDisabled(True)
 
         self.listWidget.itemSelectionChanged.connect(self.selection_changed)
         self.pushButton_save.clicked.connect(self.save_table)
         self.comboBox_month_select.currentTextChanged.connect(self.selection_changed)
         self.comboBox_year_select.currentTextChanged.connect(self.selection_changed)
         self.comboBox_type_select.currentTextChanged.connect(self.selection_changed)
+        self.pushButton_import.clicked.connect(self.open_file_chooser)
         self.pushButton_export.clicked.connect(self.export)
+        self.pushButton_delete.clicked.connect(self.delete_month)
+        self.pushButton_refresh.clicked.connect(self.refresh)
 
         self.retranslateUi(MainWindow)
         self.set_main_window_data()
@@ -174,12 +188,15 @@ class Ui_MainWindow(object):
         self.pushButton_import.setText(_translate("MainWindow", "Import"))
         self.pushButton_export.setText(_translate("MainWindow", "Export"))
         self.pushButton_save.setText(_translate("MainWindow", "Save"))
+        self.pushButton_delete.setText(_translate("MainWindow", "删除"))
+        self.pushButton_refresh.setText(_translate("MainWindow", "刷新"))
         self.label_monthly_total.setText(_translate("MainWindow", "Monthly Total"))
         self.label_monthly_total_weight_data.setText(_translate("MainWindow", "TextLabel"))
         self.label_monthly_total_data.setText(_translate("MainWindow", "TextLabel"))
         self.label_monthly_total_data_ZH.setText(_translate("MainWindow", "TextLabel"))
         self.MenuBar.setText(_translate("MainWindow", "Import"))
         self.actionExport.setText(_translate("MainWindow", "Export"))
+
 
     def set_main_window_data(self):
         for customer in self.DBManager.get_customer_list():
@@ -208,8 +225,10 @@ class Ui_MainWindow(object):
         cur_month = self.comboBox_month_select.currentText()
         if cur_month != '查看所有月份' and cur_year != '查看所有年份':
             self.pushButton_export.setDisabled(False)
+            self.pushButton_delete.setDisabled(False)
         else:
             self.pushButton_export.setDisabled(True)
+            self.pushButton_delete.setDisabled(True)
         customer_name = self.listWidget.selectedItems()[0].text()
         self.label_customer_name_data.setText(customer_name)
         self.data = self.DBManager.get_data(customer_name)
@@ -324,19 +343,25 @@ class Ui_MainWindow(object):
 
 
     def filter_by_month(self):
+        self.pushButton_export.setDisabled(True)
         selection = self.comboBox_month_select.currentText()
+        if '月' not in selection:
+            return
         if selection == '查看所有月份':
             return
         month = selection.strip('月')
         # print(month)
         temp_data = []
         for i in self.filtered_data:
+            print("1" + month)
             if i[1] == int(month):
                 temp_data.append(i)
         self.filtered_data = temp_data
 
     def filter_by_year(self):
         selection = self.comboBox_year_select.currentText()
+        if '年' not in selection:
+            return
         if selection == '查看所有年份':
             return
         year = selection.strip('年')
@@ -348,6 +373,8 @@ class Ui_MainWindow(object):
 
     def filter_by_type(self):
         selection = self.comboBox_type_select.currentText()
+        if selection == '':
+            return
         if selection ==  '水泥':
             selection = 0
         else:
@@ -366,7 +393,91 @@ class Ui_MainWindow(object):
             cur_type = 0
         else:
             cur_type = 1
-        command = f'SELECT * FROM ORDERS WHERE Year={cur_year} AND Month={cur_month} AND Type={cur_type}'
+        command = f'SELECT * FROM ORDERS WHERE Year={cur_year} AND Month={cur_month} AND Type={cur_type} ORDER BY Customer'
         self.DBManager.execute(command)
         result = self.DBManager.fetch_all()
-        print(len(result))
+        dict = {}
+        for i in result:
+            if i[5] not in dict.keys():
+                dict[i[5]] = []
+                dict[i[5]].append(i)
+            else:
+                dict[i[5]].append(i)
+
+        for i in dict.keys():
+            export_file(dict.get(i), [cur_year, cur_month], i)
+        self.pushButton_export.setDisabled(False)
+
+    def open_file_chooser(self):
+        self.DBManager.close()
+        self.DBManager = None
+        file_chooser_window = FileDialog()
+
+    def delete_month(self):
+        cur_year = int(self.comboBox_year_select.currentText().strip('年').strip(' '))
+        cur_month = int(self.comboBox_month_select.currentText().strip('月').strip(' '))
+        self.DBManager.execute(f'DELETE * FROM Orders WHERE Year={cur_year} AND Month={cur_month}')
+        self.DBManager.commit()
+
+    def refresh(self):
+        self.comboBox_type_select.clear()
+        self.comboBox_month_select.clear()
+        self.comboBox_year_select.clear()
+        self.listWidget.clear()
+        self.tableWidget.clearContents()
+
+        self.DBManager = DatabaseManager()
+        for customer in self.DBManager.get_customer_list():
+            self.listWidget.addItem(customer[0])
+
+        self.DBManager.execute('SELECT DISTINCT Month FROM ORDERS')
+        months = self.DBManager.fetch_all()
+        self.comboBox_month_select.addItem('查看所有月份')
+        for month in months:
+            self.comboBox_month_select.addItem(str(month[0]) + '月')
+        self.DBManager.execute('SELECT DISTINCT Year FROM ORDERS')
+        years = self.DBManager.fetch_all()
+        self.comboBox_year_select.addItem('查看所有年份')
+        for year in years:
+            self.comboBox_year_select.addItem(str(year[0]) + '年')
+        self.comboBox_year_select.setCurrentIndex(0)
+        self.comboBox_type_select.addItem('水泥')
+        self.comboBox_type_select.addItem('砂石')
+        self.comboBox_type_select.setCurrentIndex(0)
+        self.listWidget.clearSelection()
+
+
+class FileDialog(QWidget):
+
+    def __init__(self):
+        super().__init__()
+
+
+        self.title = 'PyQt5 file dialogs - pythonspot.com'
+        self.left = 10
+        self.top = 10
+        self.width = 640
+        self.height = 480
+        self.initUI()
+
+
+    def initUI(self):
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.openFileNameDialog()
+        self.show()
+
+
+
+    def openFileNameDialog(self):
+        options = QFileDialog.Options()
+
+
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
+                                          "All Files (*);;Python Files (*.py)", options=options)
+        if fileName:
+            print(fileName)
+            selected_file_name = fileName
+            read_from_file(fileName)
+

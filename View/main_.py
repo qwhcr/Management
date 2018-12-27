@@ -2,6 +2,8 @@ import sys
 import View
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+main_window = None
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     MainWindow = QMainWindow()
