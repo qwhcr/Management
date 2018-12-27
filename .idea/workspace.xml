@@ -4,7 +4,6 @@
     <list default="true" id="ed734d87-d3d0-4c32-a5c6-f4c0caef0679" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/View/main_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/View/main_view.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,11 +28,12 @@
           <entry key="csv" value="2" />
           <entry key="py" value="16" />
           <entry key="sqlite" value="2" />
+          <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PLAIN_TEXT" value="4" />
+          <entry key="PLAIN_TEXT" value="5" />
           <entry key="Python" value="16" />
         </counts>
       </usages-collector>
@@ -41,14 +41,14 @@
         <counts>
           <entry key="csv" value="2" />
           <entry key="dummy" value="41" />
-          <entry key="py" value="14210" />
-          <entry key="txt" value="23" />
+          <entry key="py" value="15305" />
+          <entry key="txt" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="66" />
-          <entry key="Python" value="14210" />
+          <entry key="PLAIN_TEXT" value="75" />
+          <entry key="Python" value="15305" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -101,17 +101,26 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/View/XlsxWriter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="96" column="72" selection-start-line="96" selection-start-column="72" selection-end-line="96" selection-end-column="72" />
+            <state relative-caret-position="354">
+              <caret line="175" column="28" lean-forward="true" selection-start-line="175" selection-start-column="28" selection-end-line="175" selection-end-column="28" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
-                <marker date="1545895319660" expanded="true" signature="230:253" ph="..." />
-                <marker date="1545895319660" expanded="true" signature="3707:3708" ph="..." />
-                <marker date="1545895319660" expanded="true" signature="3707:3709" ph="..." />
+                <marker date="1545911494400" expanded="true" signature="230:253" ph="..." />
+                <marker date="1545911494400" expanded="true" signature="7003:7004" ph="..." />
+                <marker date="1545911494400" expanded="true" signature="7003:7005" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/View/secret.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="22" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -129,11 +138,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/View/main_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="224" column="31" selection-start-line="224" selection-start-column="27" selection-end-line="224" selection-end-column="31" />
+            <state relative-caret-position="324">
+              <caret line="360" column="14" selection-start-line="360" selection-start-column="8" selection-end-line="360" selection-end-column="14" />
               <folding>
                 <marker date="1545270690372" expanded="true" signature="439:459" ph="..." />
                 <marker date="1545270690372" expanded="true" signature="512:648" ph="..." />
@@ -182,6 +191,8 @@
       <find>save</find>
       <find>print</find>
       <find>sort</find>
+      <find>166</find>
+      <find>52</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -214,6 +225,7 @@
         <option value="$PROJECT_DIR$/View/DBManager.py" />
         <option value="$PROJECT_DIR$/View/populate.py" />
         <option value="$PROJECT_DIR$/View/main_view.py" />
+        <option value="$PROJECT_DIR$/View/secret.txt" />
         <option value="$PROJECT_DIR$/View/XlsxWriter.py" />
       </list>
     </option>
@@ -435,14 +447,14 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3299285" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.81905913" visible="true" weight="0.4412666" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.81785285" weight="0.4412666" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49402392" weight="0.39938712" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.81483716" weight="0.3299285" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.1809409" side_tool="true" visible="true" weight="0.4412666" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.81302774" visible="true" weight="0.3299285" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.18697226" side_tool="true" visible="true" weight="0.3299285" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" x="0" y="0" width="370" height="850" id="Documentation" side_tool="true" weight="0.3294621" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -535,26 +547,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/View/main_view.py">
+    <entry file="file://$PROJECT_DIR$/View/secret.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="224" column="31" selection-start-line="224" selection-start-column="27" selection-end-line="224" selection-end-column="31" />
-          <folding>
-            <marker date="1545270690372" expanded="true" signature="439:459" ph="..." />
-            <marker date="1545270690372" expanded="true" signature="512:648" ph="..." />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="1" column="22" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/View/XlsxWriter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="96" column="72" selection-start-line="96" selection-start-column="72" selection-end-line="96" selection-end-column="72" />
+        <state relative-caret-position="354">
+          <caret line="175" column="28" lean-forward="true" selection-start-line="175" selection-start-column="28" selection-end-line="175" selection-end-column="28" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
-            <marker date="1545895319660" expanded="true" signature="230:253" ph="..." />
-            <marker date="1545895319660" expanded="true" signature="3707:3708" ph="..." />
-            <marker date="1545895319660" expanded="true" signature="3707:3709" ph="..." />
+            <marker date="1545911494400" expanded="true" signature="230:253" ph="..." />
+            <marker date="1545911494400" expanded="true" signature="7003:7004" ph="..." />
+            <marker date="1545911494400" expanded="true" signature="7003:7005" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/View/main_view.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="360" column="14" selection-start-line="360" selection-start-column="8" selection-end-line="360" selection-end-column="14" />
+          <folding>
+            <marker date="1545270690372" expanded="true" signature="439:459" ph="..." />
+            <marker date="1545270690372" expanded="true" signature="512:648" ph="..." />
           </folding>
         </state>
       </provider>
