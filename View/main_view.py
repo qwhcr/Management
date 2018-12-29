@@ -418,7 +418,7 @@ class Ui_MainWindow(object):
     def delete_month(self):
         cur_year = int(self.comboBox_year_select.currentText().strip('年').strip(' '))
         cur_month = int(self.comboBox_month_select.currentText().strip('月').strip(' '))
-        self.DBManager.execute(f'DELETE * FROM Orders WHERE Year={cur_year} AND Month={cur_month}')
+        self.DBManager.execute(f'DELETE FROM ORDERS WHERE Year={cur_year} AND Month={cur_month}')
         self.DBManager.commit()
 
     def refresh(self):
