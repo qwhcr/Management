@@ -20,11 +20,11 @@ def sort_by_date(order):
 def export_file(data, year_month, customer):
 
     pathlib.Path(f'{year_month[0]}年{year_month[1]}月/').mkdir(parents=True, exist_ok=True)
-    billing_info= []
+    billing_info = None
     with open('secret.csv', encoding='utf-8', errors='ignore') as file:
         reader = csv.reader(file, delimiter=',')
         for row in reader:
-            billing_info.append(row)
+            billing_info = row
     print(billing_info)
 
     for i in range(0, len(year_month)):
@@ -154,14 +154,14 @@ def export_file(data, year_month, customer):
     line_counter += 1
     worksheet.write_string(line_counter, 0, '以上货款双方核对无误， 请及时按月付清货款')
     line_counter += 1
-    worksheet.write_string(line_counter, 0, f'收款户名： {billing_info[0][0]}')
-    worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[1][0]}')
+    worksheet.write_string(line_counter, 0, f'收款户名： {billing_info[0]}')
+    worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[3]}')
     line_counter += 1
-    worksheet.write_string(line_counter, 0, f'开户行： {billing_info[0][1]}')
-    worksheet.write_string(line_counter, 4, f'开户行： {billing_info[1][1]}')
+    worksheet.write_string(line_counter, 0, f'开户行： {billing_info[1]}')
+    worksheet.write_string(line_counter, 4, f'开户行： {billing_info[4]}')
     line_counter += 1
-    worksheet.write_string(line_counter, 0, f'卡号： {billing_info[0][2]}')
-    worksheet.write_string(line_counter, 4, f'账号： {billing_info[1][2]}')
+    worksheet.write_string(line_counter, 0, f'卡号： {billing_info[2]}')
+    worksheet.write_string(line_counter, 4, f'账号： {billing_info[5]}')
     line_counter += 1
     worksheet.write_string(line_counter, 0, '供货方')
     worksheet.write_string(line_counter, 4, '购货方')
