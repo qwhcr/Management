@@ -25,7 +25,7 @@ def export_file(data, year_month, customer):
         reader = csv.reader(file, delimiter=',')
         for row in reader:
             billing_info.append(row)
-    print(row)
+    print(billing_info)
 
     for i in range(0, len(year_month)):
         year_month[i] = int(year_month[i])
