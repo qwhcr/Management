@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main_view.ui'
-#
-# Created by: PyQt5 UI code generator 5.11.2
-#
-# WARNING! All changes made in this file will be lost!
 import sys
 import os
 curPath = os.path.abspath(os.path.dirname(__file__))
@@ -18,6 +12,8 @@ from View.ParserWrapper import read_from_file
 from PyQt5.QtGui import QIcon
 from View.main_ import main_window
 selected_file_name = ''
+main_window_ref = None
+version = '0.1.002'
 
 def sort_by_date(val):
     return val[2]
@@ -37,6 +33,7 @@ class Ui_MainWindow(object):
         self.DBManager = DatabaseManager()
         self.data = None
         self.filtered_data = None
+        main_window_ref = self
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -165,21 +162,21 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", f"结算单管理 v{version}"))
         item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "DATE"))
+        item.setText(_translate("MainWindow", "日期"))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "CARNUM"))
+        item.setText(_translate("MainWindow", "车号"))
         item = self.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "PRODUCTNAME"))
+        item.setText(_translate("MainWindow", "产品名称"))
         item = self.tableWidget.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "WEIGHT"))
+        item.setText(_translate("MainWindow", "重量"))
         item = self.tableWidget.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "PRICE"))
+        item.setText(_translate("MainWindow", "价格"))
         item = self.tableWidget.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "TOTAL"))
+        item.setText(_translate("MainWindow", "总计"))
         item = self.tableWidget.horizontalHeaderItem(6)
-        item.setText(_translate("MainWindow", "MEMO"))
+        item.setText(_translate("MainWindow", "备忘"))
         self.label_customer_name.setText(_translate("MainWindow", "客户:"))
         self.label_customer_name_data.setText(_translate("MainWindow", "未选择"))
         self.label_total_weight.setText(_translate("MainWindow", "总重:"))
@@ -188,18 +185,16 @@ class Ui_MainWindow(object):
         self.label_total_data.setText(_translate("MainWindow", "Total"))
         self.label_total_data_ZH.setText(_translate("MainWindow", "Total"))
         self.label_month_select.setText(_translate("MainWindow", "时间选择："))
-        self.label_monthly_total_weight.setText(_translate("MainWindow", "Monthly To W"))
-        self.pushButton_import.setText(_translate("MainWindow", "Import"))
-        self.pushButton_export.setText(_translate("MainWindow", "Export"))
-        self.pushButton_save.setText(_translate("MainWindow", "Save"))
+        self.label_monthly_total_weight.setText(_translate("MainWindow", "所选范围内总重"))
+        self.pushButton_import.setText(_translate("MainWindow", "导入"))
+        self.pushButton_export.setText(_translate("MainWindow", "生成结算单"))
+        self.pushButton_save.setText(_translate("MainWindow", "保存表格"))
         self.pushButton_delete.setText(_translate("MainWindow", "删除"))
         self.pushButton_refresh.setText(_translate("MainWindow", "刷新"))
-        self.label_monthly_total.setText(_translate("MainWindow", "Monthly Total"))
+        self.label_monthly_total.setText(_translate("MainWindow", "合计"))
         self.label_monthly_total_weight_data.setText(_translate("MainWindow", "TextLabel"))
         self.label_monthly_total_data.setText(_translate("MainWindow", "TextLabel"))
         self.label_monthly_total_data_ZH.setText(_translate("MainWindow", "TextLabel"))
-        self.MenuBar.setText(_translate("MainWindow", "Import"))
-        self.actionExport.setText(_translate("MainWindow", "Export"))
 
 
     def set_main_window_data(self):
@@ -413,8 +408,6 @@ class Ui_MainWindow(object):
         self.pushButton_export.setDisabled(False)
 
     def open_file_chooser(self):
-        self.DBManager.close()
-        self.DBManager = None
         file_chooser_window = FileDialog()
 
     def delete_month(self):
@@ -481,7 +474,9 @@ class FileDialog(QWidget):
         fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
                                           "All Files (*);;Python Files (*.py)", options=options)
         if fileName:
-            print(fileName)
+            # if main_window_ref.DBManager:
+            #     main_window_ref.DBManager.close()
+            #     main_window_ref.DBManager = None
             selected_file_name = fileName
             read_from_file(fileName)
 
