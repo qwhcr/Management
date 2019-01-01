@@ -20,7 +20,7 @@ def export_file(data, year_month, customer):
 
     pathlib.Path(f'{year_month[0]}年{year_month[1]}月/').mkdir(parents=True, exist_ok=True)
     billing_info_raw = []
-    with open('secret.txt', 'r') as file:
+    with open('secret.txt', 'r', encoding='utf-8') as file:
         for line in file:
             billing_info_raw.append(line)
 
