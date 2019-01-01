@@ -6,6 +6,7 @@ sys.path.append(rootPath)
 import xlsxwriter
 from calendar import monthrange
 import pathlib
+import csv
 
 col_name_ZH = ['序号', '日期', '产品名称', '重量（吨）', '单价（元/吨）', '金额（元）', '车辆号码', '备注']
 TITLE_ROW = 5
@@ -19,15 +20,12 @@ def sort_by_date(order):
 def export_file(data, year_month, customer):
 
     pathlib.Path(f'{year_month[0]}年{year_month[1]}月/').mkdir(parents=True, exist_ok=True)
-    billing_info_raw = []
-    with open('secret.txt', 'r', encoding='utf-8') as file:
-        for line in file:
-            billing_info_raw.append(line)
-
-    billing_info = []
-    for i in billing_info_raw:
-
-        billing_info.append(i.replace('\n', '').split("-"))
+    billing_info= []
+    with open('secret.csv') as file:
+        reader = csv.reader(file, delimiter=',')
+        for row in reader:
+            billing_info.append(row)
+    print(row)
 
     for i in range(0, len(year_month)):
         year_month[i] = int(year_month[i])

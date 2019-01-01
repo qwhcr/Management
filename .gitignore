@@ -5,4 +5,5 @@
 .DS_Store
 *.sqlite
 /View/*.xlsx
-/View/secret.txt
+/View/secret.csv
+/.idea/workspace.xml
