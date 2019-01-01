@@ -21,7 +21,7 @@ def export_file(data, year_month, customer):
 
     pathlib.Path(f'{year_month[0]}年{year_month[1]}月/').mkdir(parents=True, exist_ok=True)
     billing_info= []
-    with open('secret.csv') as file:
+    with open('secret.csv', encoding='utf-8', errors='ignore') as file:
         reader = csv.reader(file, delimiter=',')
         for row in reader:
             billing_info.append(row)
