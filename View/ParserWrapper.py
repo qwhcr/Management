@@ -30,15 +30,6 @@ def read_from_file(filename):
     for i in data:
         customer_set.add(i[5])
 
-    db_manager.execute('SELECT * FROM CUSTOMERS')
-    existing_customer = db_manager.fetch_all()
-
-    for customer in customer_set:
-        if customer not in existing_customer:
-            command = "INSERT INTO CUSTOMERS VALUES('" + customer + "')"
-            db_manager.execute(command)
-    db_manager.commit()
-    print(data[0])
     for i in data:
         if i[6] == '':
             i[6] = '无'

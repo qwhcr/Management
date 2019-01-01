@@ -12,13 +12,10 @@ class DatabaseManager:
         self.__conn = sqlite3.connect(sqlite_file)
         self.__cur = self.__conn.cursor()
         self.create()
-        self.__cur.execute("SELECT * FROM CUSTOMERS")
+        self.__cur.execute("SELECT DISTINCT Customer FROM ORDERS")
         self.__customer_list = self.fetch_all()
 
     def create(self):
-        command = '''CREATE TABLE if not EXISTS CUSTOMERS(
-        CustomerName text)'''
-        self.__cur.execute(command)
         command = '''CREATE TABLE if not EXISTS ORDERS(
         Year integer,
         Month integer,
@@ -29,8 +26,7 @@ class DatabaseManager:
         Weight real,
         Price real,
         Memo text,
-        Type integer,
-        FOREIGN KEY (Customer) REFERENCES CUSTOMERS(CustomerName))'''
+        Type integer)'''
         self.__cur.execute(command)
 
     def execute(self, command):

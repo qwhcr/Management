@@ -221,8 +221,10 @@ class Ui_MainWindow(object):
         self.comboBox_type_select.setCurrentIndex(0)
 
     def selection_changed(self):
+        if not self.DBManager:
+            return
         if not self.listWidget.selectedItems():
-            return;
+            return
         self.tableWidget.clearContents()
         self.pushButton_save.setDisabled(False)
         cur_year = self.comboBox_year_select.currentText()
