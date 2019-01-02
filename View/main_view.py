@@ -14,7 +14,7 @@ from PyQt5.QtGui import QIcon
 from View.main_ import main_window
 selected_file_name = ''
 main_window_ref = None
-version = '0.1.003'
+version = '0.1.004'
 
 def sort_by_date(val):
     return val[2]
