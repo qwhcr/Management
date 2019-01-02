@@ -34,6 +34,10 @@ class Ui_MainWindow(object):
         self.DBManager = DatabaseManager()
         self.data = None
         self.filtered_data = None
+        self.prev_cur_year = '查看所有年份'
+        self.prev_cur_month = '查看所有月份'
+        self.prev_cur_type = '水泥'
+
         main_window_ref = self
 
     def setupUi(self, MainWindow):
@@ -146,6 +150,7 @@ class Ui_MainWindow(object):
         self.pushButton_save.setDisabled(True)
         self.pushButton_export.setDisabled(True)
         self.pushButton_delete.setDisabled(True)
+        self.set_main_window_data()
 
         self.listWidget.itemSelectionChanged.connect(self.selection_changed)
         self.pushButton_save.clicked.connect(self.save_table)
@@ -158,7 +163,6 @@ class Ui_MainWindow(object):
         self.pushButton_refresh.clicked.connect(self.refresh)
 
         self.retranslateUi(MainWindow)
-        self.set_main_window_data()
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -216,20 +220,35 @@ class Ui_MainWindow(object):
         self.comboBox_type_select.addItem('砂石')
         self.comboBox_type_select.setCurrentIndex(0)
 
+
+
     def selection_changed(self):
         if not self.DBManager:
             return
         cur_year = self.comboBox_year_select.currentText()
         cur_month = self.comboBox_month_select.currentText()
+        cur_type = self.comboBox_type_select.currentText()
         if cur_month != '查看所有月份' and cur_year != '查看所有年份':
             self.pushButton_export.setDisabled(False)
             self.pushButton_delete.setDisabled(False)
         else:
             self.pushButton_export.setDisabled(True)
             self.pushButton_delete.setDisabled(True)
+        print(self.prev_cur_year, cur_year)
+        print(self.prev_cur_month, cur_month)
+        print(self.prev_cur_type, cur_type)
+        if self.prev_cur_year != cur_year or self.prev_cur_month!=cur_month or self.prev_cur_type!=cur_type:
+            self.listWidget.clearSelection()
+            self.listWidget.clear()
+            self.tableWidget.clearContents()
+            self.prev_cur_month = cur_month
+            self.prev_cur_year = cur_year
+            self.prev_cur_type = cur_type
+            for i in self.DBManager.refresh_customer_list(cur_year, cur_month, cur_type):
+                self.listWidget.addItem(i[0])
         if not self.listWidget.selectedItems():
             return
-        self.tableWidget.clearContents()
+
         self.pushButton_save.setDisabled(False)
         customer_name = self.listWidget.selectedItems()[0].text()
         self.label_customer_name_data.setText(customer_name)
