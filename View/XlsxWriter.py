@@ -9,7 +9,7 @@ from calendar import monthrange
 import pathlib
 import csv
 
-col_name_ZH = ['序号', '日期', '产品名称', '重量（吨）', '单价（元/吨）', '金额（元）', '车辆号码', '备注']
+col_name_ZH = ['序号', '日期', '产品名称', '数量（吨）', '单价（元/吨）', '金额（元）', '车辆号码', '备注']
 TITLE_ROW = 5
 CONTENT_START_ROW = TITLE_ROW + 1
 
@@ -46,6 +46,7 @@ def export_file(data, year_month, customer, type):
     worksheet = workbook.add_worksheet()
 
     worksheet.set_paper(9)
+    worksheet.set_margins(0.4, 0.2, 0.75, 0.75)
 
     title_format = workbook.add_format({
         'font_size': 20,
@@ -94,12 +95,12 @@ def export_file(data, year_month, customer, type):
 
     worksheet.set_column(0, 0, 5)
     worksheet.set_column(1, 1, 15)
-    worksheet.set_column(2, 2, 15)
-    worksheet.set_column(3, 3, 11)
-    worksheet.set_column(4, 4, 11)
-    worksheet.set_column(5, 5, 11)
-    worksheet.set_column(6, 6, 12)
-    worksheet.set_column(7, 7, 15)
+    worksheet.set_column(2, 2, 12)
+    worksheet.set_column(3, 3, 9)
+    worksheet.set_column(4, 4, 12)
+    worksheet.set_column(5, 5, 9)
+    worksheet.set_column(6, 6, 10)
+    worksheet.set_column(7, 7, 10)
 
     worksheet.merge_range(0, 0, 0, 7, '结算单', title_format)
     worksheet.merge_range(1, 0, 1, 7, f'{year_month[0]}年{year_month[1]}月', title_date_format)
@@ -122,7 +123,7 @@ def export_file(data, year_month, customer, type):
     index_counter = 1
     for i in data:
         date = str(i[0]) + '/' + str(i[1]) + '/' + str(i[2])
-        worksheet.write(line_counter, 0, index_counter, content_format_wb)
+        worksheet.write(line_counter, 0, index_counter, content_format_wb_align)
         worksheet.write_string(line_counter, 1, date, content_format_wb)
         worksheet.write_string(line_counter, 2, i[4], content_format_wb)
         worksheet.write(line_counter, 3, i[6], content_format_wb)
@@ -142,29 +143,29 @@ def export_file(data, year_month, customer, type):
     worksheet.write_string(line_counter, 7, '', content_format_wb)
     worksheet.merge_range(line_counter, 0, line_counter, 2, '合计', content_format_wb_align)
     line_counter += 1
-    worksheet.merge_range(line_counter, 0, line_counter, 2, '本期货款: 大写人民币', content_format_ltb)
-    worksheet.merge_range(line_counter, 3, line_counter, 5, f'''=SUBSTITUTE(SUBSTITUTE(TEXT(INT(F{line_counter}),
+    worksheet.merge_range(line_counter, 0, line_counter, 1, '本期货款: 大写人民币', content_format_ltb)
+    worksheet.merge_range(line_counter, 2, line_counter, 4, f'''=SUBSTITUTE(SUBSTITUTE(TEXT(INT(F{line_counter}),
         "[DBNum2][$-804]G/通用格式元"&IF(INT(F{line_counter})=F{line_counter},"整",""))&TEXT(MID(F{line_counter},FIND("."
         ,F{line_counter}&".0")+1,1),"[DBNum2][$-804]G/通用格式角")&TEXT(MID(F{line_counter},FIND(".",F{line_counter}&".0
         ")+2,1),"[DBNum2][$-804]G/通用格式分"),"零角","零"),"零分","")''', content_format_tb)
-    worksheet.merge_range(line_counter, 6, line_counter, 7, f'="¥"&F{line_counter - 1}', content_format_tbr)
+    worksheet.merge_range(line_counter, 5, line_counter, 7, f'="¥"&F{line_counter - 1}', content_format_tbr)
     line_counter += 1
-    worksheet.merge_range(line_counter, 0, line_counter, 1, '付款情况', content_format_nb)
+    worksheet.merge_range(line_counter, 0, line_counter, 1, '付款情况：', content_format_nb)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '上月末欠款', content_format_wb)
     worksheet.write(line_counter, 2, '', content_format_wb)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '本月货款', content_format_wb)
-    worksheet.write(line_counter, 2, '', content_format_wb)
+    worksheet.write_formula(line_counter, 2, f'=SUM(F{CONTENT_START_ROW+1}:F{line_counter-4})', content_format_wb)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '本月收到货款', content_format_wb)
     worksheet.write(line_counter, 2, '', content_format_wb)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '本月末欠货款', content_format_wb)
-    worksheet.write_formula(line_counter, 2, f'=C{line_counter-3}+C{line_counter-2}-C{line_counter-1}'
+    worksheet.write_formula(line_counter, 2, f'=C{line_counter-2}+C{line_counter-1}-C{line_counter}'
                             , content_format_wb)
     line_counter += 1
-    worksheet.write_string(line_counter, 0, '以上货款双方核对无误， 请及时按月付清货款')
+    worksheet.write_string(line_counter, 0, '  以上货款双方核对无误， 请及时按月付清货款。')
     line_counter += 1
     worksheet.write_string(line_counter, 0, f'收款户名： {billing_info[0]}')
     worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[3]}')
