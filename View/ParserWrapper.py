@@ -62,7 +62,7 @@ def read_from_source(name):
     c = 0
     with open(name) as file:
         reader = csv.reader(file, delimiter=',')
-        print('Reading data from csv file')
+        # print('Reading data from csv file')
         start = False
         for row in reader:
             r += 1
@@ -72,7 +72,7 @@ def read_from_source(name):
                 if 'END' not in row:
                     if row[len(row)-1] != 'n':
                         c = len(row)-1
-                        raise ValueError("new line char in elements, error in row:%d col:%d" % (r, c))
+                        raise ValueError(f"csv格式错误！可能的错误位置：{r}行{c}列")
                     else:
                         data.append(row)
     return data

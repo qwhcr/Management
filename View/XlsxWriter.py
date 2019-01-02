@@ -3,6 +3,7 @@ import os
 curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
+import platform
 import xlsxwriter
 from calendar import monthrange
 import pathlib
@@ -17,20 +18,31 @@ def sort_by_date(order):
     return order[2]
 
 
-def export_file(data, year_month, customer):
+def export_file(data, year_month, customer, type):
 
-    pathlib.Path(f'{year_month[0]}年{year_month[1]}月/').mkdir(parents=True, exist_ok=True)
+    type_text = type
+    if type_text == 0:
+        type_text = '水泥'
+    else:
+        type_text = '砂石'
+
+    pathlib.Path(f'../输出/{year_month[0]}年{year_month[1]}月{type_text}/').mkdir(parents=True, exist_ok=True)
     billing_info = None
-    with open('secret.csv', encoding='gbk', errors='ignore') as file:
-        reader = csv.reader(file, delimiter=',')
-        for row in reader:
-            billing_info = row
-    print(billing_info)
+    if platform.system() == 'Darwin':
+        with open('secret.csv') as file:
+            reader = csv.reader(file, delimiter=',')
+            for row in reader:
+                billing_info = row
+    else:
+        with open('secret.csv', encoding='gbk', errors='ignore') as file:
+            reader = csv.reader(file, delimiter=',')
+            for row in reader:
+                billing_info = row
 
     for i in range(0, len(year_month)):
         year_month[i] = int(year_month[i])
 
-    workbook = xlsxwriter.Workbook(f'{year_month[0]}年{year_month[1]}月/{customer}结算单.xlsx')
+    workbook = xlsxwriter.Workbook(f'../输出/{year_month[0]}年{year_month[1]}月{type_text}/{customer}结算单.xlsx')
     worksheet = workbook.add_worksheet()
 
     worksheet.set_paper(9)

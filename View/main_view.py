@@ -5,7 +5,8 @@ curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog, QAction
+from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog, QAction\
+    , QErrorMessage
 from View.DBManager import DatabaseManager
 from View.XlsxWriter import export_file
 from View.ParserWrapper import read_from_file
@@ -13,7 +14,7 @@ from PyQt5.QtGui import QIcon
 from View.main_ import main_window
 selected_file_name = ''
 main_window_ref = None
-version = '0.1.002'
+version = '0.1.003'
 
 def sort_by_date(val):
     return val[2]
@@ -218,10 +219,6 @@ class Ui_MainWindow(object):
     def selection_changed(self):
         if not self.DBManager:
             return
-        if not self.listWidget.selectedItems():
-            return
-        self.tableWidget.clearContents()
-        self.pushButton_save.setDisabled(False)
         cur_year = self.comboBox_year_select.currentText()
         cur_month = self.comboBox_month_select.currentText()
         if cur_month != '查看所有月份' and cur_year != '查看所有年份':
@@ -230,6 +227,10 @@ class Ui_MainWindow(object):
         else:
             self.pushButton_export.setDisabled(True)
             self.pushButton_delete.setDisabled(True)
+        if not self.listWidget.selectedItems():
+            return
+        self.tableWidget.clearContents()
+        self.pushButton_save.setDisabled(False)
         customer_name = self.listWidget.selectedItems()[0].text()
         self.label_customer_name_data.setText(customer_name)
         self.data = self.DBManager.get_data(customer_name)
@@ -403,7 +404,7 @@ class Ui_MainWindow(object):
                 dict[i[5]].append(i)
 
         for i in dict.keys():
-            export_file(dict.get(i), [cur_year, cur_month], i)
+            export_file(dict.get(i), [cur_year, cur_month], i, cur_type)
         self.pushButton_export.setDisabled(False)
 
     def open_file_chooser(self):
@@ -412,7 +413,12 @@ class Ui_MainWindow(object):
     def delete_month(self):
         cur_year = int(self.comboBox_year_select.currentText().strip('年').strip(' '))
         cur_month = int(self.comboBox_month_select.currentText().strip('月').strip(' '))
-        self.DBManager.execute(f'DELETE FROM ORDERS WHERE Year={cur_year} AND Month={cur_month}')
+        cur_type = self.comboBox_type_select.currentText()
+        if cur_type ==  '水泥':
+            cur_type = 0
+        else:
+            cur_type = 1
+        self.DBManager.execute(f'DELETE FROM ORDERS WHERE Year={cur_year} AND Month={cur_month} AND Type={cur_type}')
         self.DBManager.commit()
 
     def refresh(self):
@@ -476,5 +482,12 @@ class FileDialog(QWidget):
             #     main_window_ref.DBManager.close()
             #     main_window_ref.DBManager = None
             selected_file_name = fileName
-            read_from_file(fileName)
+            try:
+                read_from_file(fileName)
+            except ValueError as e:
+                error_dialog = QErrorMessage()
+                error_dialog.showMessage(str(e))
+                error_dialog.exec_()
+
+
 
