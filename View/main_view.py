@@ -429,7 +429,7 @@ class Ui_MainWindow(object):
         self.pushButton_export.setDisabled(False)
 
     def open_file_chooser(self):
-        file_chooser_window = FileDialog()
+        file_chooser_window = FileDialog(self.comboBox_type_select.currentText())
 
     def delete_month(self):
         cur_year = int(self.comboBox_year_select.currentText().strip('年').strip(' '))
@@ -472,7 +472,7 @@ class Ui_MainWindow(object):
 
 class FileDialog(QWidget):
 
-    def __init__(self):
+    def __init__(self, type):
         super().__init__()
 
 
@@ -481,6 +481,7 @@ class FileDialog(QWidget):
         self.top = 10
         self.width = 640
         self.height = 480
+        self.type = type
         self.initUI()
 
 
@@ -504,7 +505,7 @@ class FileDialog(QWidget):
             #     main_window_ref.DBManager = None
             selected_file_name = fileName
             try:
-                read_from_file(fileName)
+                read_from_file(fileName, self.type)
             except ValueError as e:
                 error_dialog = QErrorMessage()
                 error_dialog.showMessage(str(e))

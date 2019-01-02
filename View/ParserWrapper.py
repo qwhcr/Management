@@ -21,7 +21,12 @@ from View import DBManager
 #                 temp = line
 #                 temp.replace('\n', '')
 #     return data
-def read_from_file(filename):
+def read_from_file(filename, type):
+    if type == '水泥':
+        type = 0
+    else:
+        type = 1
+
     filename = filename
     data = read_from_source(filename)
     db_manager = DBManager.DatabaseManager()
@@ -44,7 +49,7 @@ def read_from_file(filename):
         {float(i[4])},
         0.0,
         '{i[6]}',
-        0)
+        {type})
         '''
         db_manager.execute(command)
     db_manager.commit()
