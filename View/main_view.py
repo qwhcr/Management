@@ -228,6 +228,8 @@ class Ui_MainWindow(object):
         cur_year = self.comboBox_year_select.currentText()
         cur_month = self.comboBox_month_select.currentText()
         cur_type = self.comboBox_type_select.currentText()
+        if not cur_type or not cur_year or not cur_month:
+            return
         if cur_month != '查看所有月份' and cur_year != '查看所有年份':
             self.pushButton_export.setDisabled(False)
             self.pushButton_delete.setDisabled(False)
