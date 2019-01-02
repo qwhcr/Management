@@ -42,10 +42,10 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.comboBox_year_select = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox_year_select.setGeometry(QtCore.QRect(510, 0, 121, 31))
+        self.comboBox_year_select.setGeometry(QtCore.QRect(510, 0, 150, 31))
         self.comboBox_year_select.setObjectName("comboBox_year_select")
         self.comboBox_month_select = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox_month_select.setGeometry(QtCore.QRect(620, 0, 121, 31))
+        self.comboBox_month_select.setGeometry(QtCore.QRect(660, 0, 150, 31))
         self.comboBox_month_select.setObjectName("comboBox_month_select")
         self.comboBox_type_select = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox_type_select.setGeometry(QtCore.QRect(810, 0, 121, 31))
@@ -112,10 +112,10 @@ class Ui_MainWindow(object):
         self.pushButton_save.setGeometry(QtCore.QRect(1090, 25, 113, 31))
         self.pushButton_save.setObjectName("pushButton_save")
         self.pushButton_delete = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_delete.setGeometry(QtCore.QRect(1290, 25, 113, 31))
+        self.pushButton_delete.setGeometry(QtCore.QRect(1343, 25, 113, 31))
         self.pushButton_delete.setObjectName("pushButton_delete")
         self.pushButton_refresh = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_refresh.setGeometry(QtCore.QRect(1190, 25, 113, 31))
+        self.pushButton_refresh.setGeometry(QtCore.QRect(1200, 25, 113, 31))
         self.pushButton_refresh.setObjectName("pushButton_refresh")
         self.label_monthly_total = QtWidgets.QLabel(self.centralwidget)
         self.label_monthly_total.setGeometry(QtCore.QRect(400, 50, 91, 16))
@@ -341,8 +341,6 @@ class Ui_MainWindow(object):
             self.DBManager.execute(command)
         self.DBManager.commit()
 
-
-
     def filter_by_month(self):
         selection = self.comboBox_month_select.currentText()
         if '月' not in selection:
@@ -392,7 +390,8 @@ class Ui_MainWindow(object):
             cur_type = 0
         else:
             cur_type = 1
-        command = f'SELECT * FROM ORDERS WHERE Year={cur_year} AND Month={cur_month} AND Type={cur_type} ORDER BY Customer'
+        command = f'SELECT * FROM ORDERS WHERE Year={cur_year} AND Month={cur_month} ' \
+                  f'AND Type={cur_type} ORDER BY Customer'
         self.DBManager.execute(command)
         result = self.DBManager.fetch_all()
         dict = {}
@@ -450,7 +449,7 @@ class FileDialog(QWidget):
         super().__init__()
 
 
-        self.title = 'PyQt5 file dialogs - pythonspot.com'
+        self.title = '打开文件'
         self.left = 10
         self.top = 10
         self.width = 640
@@ -465,14 +464,13 @@ class FileDialog(QWidget):
         self.show()
 
 
-
     def openFileNameDialog(self):
         options = QFileDialog.Options()
 
 
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
-                                          "All Files (*);;Python Files (*.py)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(self, "打开文件", "",
+                                          "逗号分隔(*.csv)", options=options)
         if fileName:
             # if main_window_ref.DBManager:
             #     main_window_ref.DBManager.close()
