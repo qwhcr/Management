@@ -9,7 +9,9 @@ from calendar import monthrange
 import pathlib
 import csv
 
-col_name_ZH = ['序号', '日期', '产品名称', '数量（吨）', '单价（元/吨）', '金额（元）', '车辆号码', '备注']
+col_name_t0_ZH = ['序号', '日期', '产品名称', '数量（吨）', '单价（元/吨）', '金额（元）', '车辆号码', '备注']
+col_name_t1_ZH = ['序号', '日期', '产品名称',  '数量（方）',  '单价（元/方）', '金额（元）', '车辆号码', '备注']
+
 TITLE_ROW = 5
 CONTENT_START_ROW = TITLE_ROW + 1
 
@@ -46,7 +48,7 @@ def export_file(data, year_month, customer, type):
     worksheet = workbook.add_worksheet()
 
     worksheet.set_paper(9)
-    worksheet.set_margins(0.2, 0.2, 0.75, 0.75)
+    worksheet.set_margins(0.4, 0.2, 0.75, 0.75)
 
     title_format = workbook.add_format({
         'font_size': 20,
@@ -114,8 +116,12 @@ def export_file(data, year_month, customer, type):
 
     worksheet.merge_range(4, 0, 4, 7, '提货明细：', content_format_nb)
 
-    for i in range(0, 8):
-        worksheet.write_string(TITLE_ROW, i, col_name_ZH[i], content_format_wb_align)
+    if type == 0:
+        for i in range(0, 8):
+            worksheet.write_string(TITLE_ROW, i, col_name_t0_ZH[i], content_format_wb_align)
+    else:
+        for i in range(0, 8):
+            worksheet.write_string(TITLE_ROW, i, col_name_t1_ZH[i], content_format_wb_align)
 
     data.sort(key=sort_by_date)
 
