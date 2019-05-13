@@ -44,7 +44,7 @@ def export_file(data, year_month, customer, type):
     for i in range(0, len(year_month)):
         year_month[i] = int(year_month[i])
 
-    workbook = xlsxwriter.Workbook(f'../输出/{year_month[0]}年{year_month[1]}月{type_text}/{customer}结算单.xlsx')
+    workbook = xlsxwriter.Workbook(f'../输出/{year_month[0]}年{year_month[1]}月{type_text}/{year_month[1]}月-{customer}结算单.xlsx')
     worksheet = workbook.add_worksheet()
 
     worksheet.set_paper(9)
@@ -148,6 +148,8 @@ def export_file(data, year_month, customer, type):
     worksheet.write_string(line_counter, 6, '', content_format_wb)
     worksheet.write_string(line_counter, 7, '', content_format_wb)
     worksheet.merge_range(line_counter, 0, line_counter, 2, '合计', content_format_wb_align)
+    #@code total_row_num used for 本月货款 formula
+    total_row_num = line_counter + 1
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '本期货款: 大写人民币', content_format_ltb)
     worksheet.merge_range(line_counter, 2, line_counter, 4, f'''=SUBSTITUTE(SUBSTITUTE(TEXT(INT(F{line_counter}),
@@ -162,7 +164,7 @@ def export_file(data, year_month, customer, type):
     worksheet.write(line_counter, 2, '', content_format_wb)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '本月货款', content_format_wb)
-    worksheet.write_formula(line_counter, 2, f'=SUM(F{CONTENT_START_ROW+1}:F{line_counter-4})', content_format_wb)
+    worksheet.write_formula(line_counter, 2, f'=F{total_row_num}', content_format_wb)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '本月收到货款', content_format_wb)
     worksheet.write(line_counter, 2, '', content_format_wb)
@@ -173,14 +175,14 @@ def export_file(data, year_month, customer, type):
     line_counter += 1
     worksheet.write_string(line_counter, 0, '  以上货款双方核对无误， 请及时按月付清货款。')
     line_counter += 1
-    worksheet.write_string(line_counter, 0, f'收款户名： {billing_info[0]}')
-    worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[3]}')
+    worksheet.write_string(line_counter, 0, f'收款户名： {billing_info[3]}')
+    # worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[3]}')
     line_counter += 1
-    worksheet.write_string(line_counter, 0, f'开户行： {billing_info[1]}')
-    worksheet.write_string(line_counter, 4, f'开户行： {billing_info[4]}')
+    worksheet.write_string(line_counter, 0, f'开户行： {billing_info[4]}')
+    # worksheet.write_string(line_counter, 4, f'开户行： {billing_info[4]}')
     line_counter += 1
-    worksheet.write_string(line_counter, 0, f'卡号： {billing_info[2]}')
-    worksheet.write_string(line_counter, 4, f'账号： {billing_info[5]}')
+    worksheet.write_string(line_counter, 0, f'卡号： {billing_info[5]}')
+    # worksheet.write_string(line_counter, 4, f'账号： {billing_info[5]}')
     line_counter += 1
     worksheet.write_string(line_counter, 0, '供货方')
     worksheet.write_string(line_counter, 4, '购货方')
