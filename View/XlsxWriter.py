@@ -19,6 +19,9 @@ CONTENT_START_ROW = TITLE_ROW + 1
 def sort_by_date(order):
     return order[2]
 
+def sanitize_output_file_name(raw_name: str) -> str:
+    file_name = raw_name.replace(":", "：")
+    return file_name
 
 def export_file(data, year_month, customer, type):
 
@@ -44,7 +47,9 @@ def export_file(data, year_month, customer, type):
     for i in range(0, len(year_month)):
         year_month[i] = int(year_month[i])
 
-    workbook = xlsxwriter.Workbook(f'../输出/{year_month[0]}年{year_month[1]}月{type_text}/{year_month[1]}月-{customer}结算单.xlsx')
+    output_file_name = f'../输出/{year_month[0]}年{year_month[1]}月{type_text}/{year_month[1]}月-{customer}结算单.xlsx'
+
+    workbook = xlsxwriter.Workbook(sanitize_output_file_name(output_file_name))
     worksheet = workbook.add_worksheet()
 
     worksheet.set_paper(9)
@@ -89,11 +94,17 @@ def export_file(data, year_month, customer, type):
         'align': 'center',
         'valign': 'vcenter'
     })
-    content_format_tbr.set_num_format('#,##0.00')
+    content_format_tbr.set_num_format('¥ #,##0.00')
     content_format_wb = workbook.add_format({
         'font_size': 12,
         'border': 1
     })
+    content_format_wb.set_num_format('#')
+    content_format_wb_keep_2_decimal = workbook.add_format({
+        'font_size': 12,
+        'border': 1
+    })
+    content_format_wb_keep_2_decimal.set_num_format('#0.00')
 
     worksheet.set_column(0, 0, 6)
     worksheet.set_column(1, 1, 15)
@@ -134,7 +145,7 @@ def export_file(data, year_month, customer, type):
         worksheet.write_string(line_counter, 2, i[4], content_format_wb)
         worksheet.write(line_counter, 3, i[6], content_format_wb)
         worksheet.write(line_counter, 4, i[7], content_format_wb)
-        worksheet.write_formula(line_counter, 5, f'=D{1+line_counter}*E{1+line_counter}', content_format_wb)
+        worksheet.write_formula(line_counter, 5, f'=D{1+line_counter}*E{1+line_counter}', content_format_wb_keep_2_decimal)
         worksheet.write_string(line_counter, 6, i[3], content_format_wb_align)
         if i[8] == '无':
             worksheet.write_string(line_counter, 7, '', content_format_wb)
@@ -144,7 +155,7 @@ def export_file(data, year_month, customer, type):
         index_counter += 1
     worksheet.write_formula(line_counter, 3, f'=SUM(D{CONTENT_START_ROW + 1}:D{line_counter})', content_format_wb)
     worksheet.write_string(line_counter, 4, '', content_format_wb)
-    worksheet.write_formula(line_counter, 5, f'=SUM(F{CONTENT_START_ROW+1}:F{line_counter})', content_format_wb)
+    worksheet.write_formula(line_counter, 5, f'=SUM(F{CONTENT_START_ROW+1}:F{line_counter})', content_format_wb_keep_2_decimal)
     worksheet.write_string(line_counter, 6, '', content_format_wb)
     worksheet.write_string(line_counter, 7, '', content_format_wb)
     worksheet.merge_range(line_counter, 0, line_counter, 2, '合计', content_format_wb_align)
@@ -156,22 +167,22 @@ def export_file(data, year_month, customer, type):
         "[DBNum2][$-804]G/通用格式元"&IF(INT(F{line_counter})=F{line_counter},"整",""))&TEXT(MID(F{line_counter},FIND("."
         ,F{line_counter}&".0")+1,1),"[DBNum2][$-804]G/通用格式角")&TEXT(MID(F{line_counter},FIND(".",F{line_counter}&".0
         ")+2,1),"[DBNum2][$-804]G/通用格式分"),"零角","零"),"零分","")''', content_format_tb)
-    worksheet.merge_range(line_counter, 5, line_counter, 7, f'="¥"&F{line_counter}', content_format_tbr)
+    worksheet.merge_range(line_counter, 5, line_counter, 7, f'=F{line_counter}', content_format_tbr)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '付款情况：', content_format_nb)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '上月末欠款', content_format_wb)
-    worksheet.write(line_counter, 2, '', content_format_wb)
+    worksheet.write(line_counter, 2, '', content_format_wb_keep_2_decimal)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '本月货款', content_format_wb)
-    worksheet.write_formula(line_counter, 2, f'=F{total_row_num}', content_format_wb)
+    worksheet.write_formula(line_counter, 2, f'=F{total_row_num}', content_format_wb_keep_2_decimal)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '本月收到货款', content_format_wb)
-    worksheet.write(line_counter, 2, '', content_format_wb)
+    worksheet.write(line_counter, 2, '', content_format_wb_keep_2_decimal)
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '本月末欠货款', content_format_wb)
     worksheet.write_formula(line_counter, 2, f'=C{line_counter-2}+C{line_counter-1}-C{line_counter}'
-                            , content_format_wb)
+                            , content_format_wb_keep_2_decimal)
     line_counter += 1
     worksheet.write_string(line_counter, 0, '  以上货款双方核对无误， 请及时按月付清货款。')
     line_counter += 1
@@ -181,7 +192,7 @@ def export_file(data, year_month, customer, type):
     worksheet.write_string(line_counter, 0, f'开户行： {billing_info[4]}')
     # worksheet.write_string(line_counter, 4, f'开户行： {billing_info[4]}')
     line_counter += 1
-    worksheet.write_string(line_counter, 0, f'卡号： {billing_info[5]}')
+    worksheet.write_string(line_counter, 0, f'账号： {billing_info[5]}')
     # worksheet.write_string(line_counter, 4, f'账号： {billing_info[5]}')
     line_counter += 1
     worksheet.write_string(line_counter, 0, '供货方')
