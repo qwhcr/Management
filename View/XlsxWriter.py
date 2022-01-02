@@ -9,8 +9,8 @@ from calendar import monthrange
 import pathlib
 import csv
 
-col_name_t0_ZH = ['序号', '日期', '产品名称', '数量（吨）', '单价（元/吨）', '金额（元）', '车辆号码', '备注']
-col_name_t1_ZH = ['序号', '日期', '产品名称',  '数量（方）',  '单价（元/方）', '金额（元）', '车辆号码', '备注']
+col_name_t0_ZH = ['序号', '日期', '产品名称', '数量（吨）', '单价', '金额（元）', '车辆号码', '备注']
+col_name_t1_ZH = ['序号', '日期', '产品名称',  '数量（方）',  '单价', '金额（元）', '车辆号码', '备注']
 
 TITLE_ROW = 5
 CONTENT_START_ROW = TITLE_ROW + 1
@@ -107,21 +107,21 @@ def export_file(data, year_month, customer, type):
     content_format_wb_keep_2_decimal.set_num_format('#0.00')
 
     worksheet.set_column(0, 0, 6)
-    worksheet.set_column(1, 1, 15)
+    worksheet.set_column(1, 1, 12)
     worksheet.set_column(2, 2, 12)
     worksheet.set_column(3, 3, 9)
-    worksheet.set_column(4, 4, 12)
-    worksheet.set_column(5, 5, 9)
+    worksheet.set_column(4, 4, 9)
+    worksheet.set_column(5, 5, 12)
     worksheet.set_column(6, 6, 10)
-    worksheet.set_column(7, 7, 16)
+    worksheet.set_column(7, 7, 12)
 
     worksheet.merge_range(0, 0, 0, 7, '结算单', title_format)
     worksheet.merge_range(1, 0, 1, 7, f'{year_month[0]}年{year_month[1]}月', title_date_format)
     worksheet.merge_range(2, 0, 2, 7, f'客户：{customer}', content_format_nb)
-    worksheet.merge_range(3, 0, 3, 3, '您本月提货付款情况如下：')
+    worksheet.merge_range(3, 0, 3, 3, '您本期提货付款情况如下：')
 
     worksheet.merge_range(3, 4, 3, 7,
-                          f'结算时间：{year_month[0]}年{year_month[1]}月1日' +
+                          f'结算期间：{year_month[0]}年{year_month[1]}月1日' +
                           f'至{year_month[0]}年{year_month[1]}月{monthrange(year_month[0], year_month[1])[1]}日',
                           content_format_nb)
 
@@ -143,7 +143,7 @@ def export_file(data, year_month, customer, type):
         worksheet.write(line_counter, 0, index_counter, content_format_wb_align)
         worksheet.write_string(line_counter, 1, date, content_format_wb)
         worksheet.write_string(line_counter, 2, i[4], content_format_wb)
-        worksheet.write(line_counter, 3, i[6], content_format_wb)
+        worksheet.write(line_counter, 3, i[6], content_format_wb_keep_2_decimal)
         worksheet.write(line_counter, 4, i[7], content_format_wb)
         worksheet.write_formula(line_counter, 5, f'=D{1+line_counter}*E{1+line_counter}', content_format_wb_keep_2_decimal)
         worksheet.write_string(line_counter, 6, i[3], content_format_wb_align)
@@ -153,7 +153,7 @@ def export_file(data, year_month, customer, type):
             worksheet.write_string(line_counter, 7, i[8], content_format_wb)
         line_counter += 1
         index_counter += 1
-    worksheet.write_formula(line_counter, 3, f'=SUM(D{CONTENT_START_ROW + 1}:D{line_counter})', content_format_wb)
+    worksheet.write_formula(line_counter, 3, f'=SUM(D{CONTENT_START_ROW + 1}:D{line_counter})', content_format_wb_keep_2_decimal)
     worksheet.write_string(line_counter, 4, '', content_format_wb)
     worksheet.write_formula(line_counter, 5, f'=SUM(F{CONTENT_START_ROW+1}:F{line_counter})', content_format_wb_keep_2_decimal)
     worksheet.write_string(line_counter, 6, '', content_format_wb)
@@ -171,20 +171,20 @@ def export_file(data, year_month, customer, type):
     line_counter += 1
     worksheet.merge_range(line_counter, 0, line_counter, 1, '付款情况：', content_format_nb)
     line_counter += 1
-    worksheet.merge_range(line_counter, 0, line_counter, 1, '上月末欠款', content_format_wb)
+    worksheet.merge_range(line_counter, 0, line_counter, 1, '上期末欠款', content_format_wb)
     worksheet.write(line_counter, 2, '', content_format_wb_keep_2_decimal)
     line_counter += 1
-    worksheet.merge_range(line_counter, 0, line_counter, 1, '本月货款', content_format_wb)
+    worksheet.merge_range(line_counter, 0, line_counter, 1, '本期货款', content_format_wb)
     worksheet.write_formula(line_counter, 2, f'=F{total_row_num}', content_format_wb_keep_2_decimal)
     line_counter += 1
-    worksheet.merge_range(line_counter, 0, line_counter, 1, '本月收到货款', content_format_wb)
+    worksheet.merge_range(line_counter, 0, line_counter, 1, '本期收到货款', content_format_wb)
     worksheet.write(line_counter, 2, '', content_format_wb_keep_2_decimal)
     line_counter += 1
-    worksheet.merge_range(line_counter, 0, line_counter, 1, '本月末欠货款', content_format_wb)
+    worksheet.merge_range(line_counter, 0, line_counter, 1, '本期末欠货款', content_format_wb)
     worksheet.write_formula(line_counter, 2, f'=C{line_counter-2}+C{line_counter-1}-C{line_counter}'
                             , content_format_wb_keep_2_decimal)
     line_counter += 1
-    worksheet.write_string(line_counter, 0, '  以上货款双方核对无误， 请及时按月付清货款。')
+    worksheet.write_string(line_counter, 0, ' 以上每车签收的发货单原件已交还购货方，货款双方核对无误，请及时按期付清货款。')
     line_counter += 1
     worksheet.write_string(line_counter, 0, f'收款户名： {billing_info[3]}')
     # worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[3]}')
