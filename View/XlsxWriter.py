@@ -53,7 +53,7 @@ def export_file(data, year_month, customer, type):
     worksheet = workbook.add_worksheet()
 
     worksheet.set_paper(9)
-    worksheet.set_margins(0.3, 0.3, 0.75, 0.75) # do not set horizontal margin too large to avoid overflow in printing
+    worksheet.set_margins(0.35, 0.25, 0.75, 0.75) # do not set horizontal margin too large to avoid overflow in printing
 
     title_format = workbook.add_format({
         'font_size': 20,
@@ -113,7 +113,7 @@ def export_file(data, year_month, customer, type):
     worksheet.set_column(4, 4, 9)
     worksheet.set_column(5, 5, 12)
     worksheet.set_column(6, 6, 10)
-    worksheet.set_column(7, 7, 12)
+    worksheet.set_column(7, 7, 16)
 
     worksheet.merge_range(0, 0, 0, 7, '结算单', title_format)
     worksheet.merge_range(1, 0, 1, 7, f'{year_month[0]}年{year_month[1]}月', title_date_format)
@@ -184,7 +184,7 @@ def export_file(data, year_month, customer, type):
     worksheet.write_formula(line_counter, 2, f'=C{line_counter-2}+C{line_counter-1}-C{line_counter}'
                             , content_format_wb_keep_2_decimal)
     line_counter += 1
-    worksheet.write_string(line_counter, 0, ' 以上每车签收的发货单原件已交还购货方，货款双方核对无误，请及时按期付清货款。')
+    worksheet.write_string(line_counter, 0, '   以上每车签收的发货单原件已交还购货方，货款双方核对无误，请及时按期付清货款。')
     line_counter += 1
     worksheet.write_string(line_counter, 0, f'收款户名： {billing_info[3]}')
     # worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[3]}')
