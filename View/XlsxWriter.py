@@ -53,7 +53,7 @@ def export_file(data, year_month, customer, type):
     worksheet = workbook.add_worksheet()
 
     worksheet.set_paper(9)
-    worksheet.set_margins(0.3, 0.3, 0.75, 0.75) # do not set horizontal margin too large to avoid overflow in printing
+    worksheet.set_margins(0.35, 0.25, 0.75, 0.75) # do not set horizontal margin too large to avoid overflow in printing
 
     title_format = workbook.add_format({
         'font_size': 20,
