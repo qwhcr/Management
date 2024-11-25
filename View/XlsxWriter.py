@@ -108,12 +108,12 @@ def export_file(data, year_month, customer, type):
 
     worksheet.set_column(0, 0, 6)
     worksheet.set_column(1, 1, 16)
-    worksheet.set_column(2, 2, 12)
+    worksheet.set_column(2, 2, 16)
     worksheet.set_column(3, 3, 9)
     worksheet.set_column(4, 4, 9)
     worksheet.set_column(5, 5, 12)
     worksheet.set_column(6, 6, 10)
-    worksheet.set_column(7, 7, 12)
+    worksheet.set_column(7, 7, 8)
 
     worksheet.merge_range(0, 0, 0, 7, '结算单', title_format)
     worksheet.merge_range(1, 0, 1, 7, f'{year_month[0]}年{year_month[1]}月', title_date_format)
@@ -184,16 +184,16 @@ def export_file(data, year_month, customer, type):
     worksheet.write_formula(line_counter, 2, f'=C{line_counter-2}+C{line_counter-1}-C{line_counter}'
                             , content_format_wb_keep_2_decimal)
     line_counter += 1
-    worksheet.write_string(line_counter, 0, ' 以上每车签收的发货单原件已交还购货方，货款双方核对无误，请及时按期付清货款。')
+    worksheet.write_string(line_counter, 0, ' 以上每车签收的发货单原件已交还购货方，货款双方核对无误，请及时按期付清货款。若有纠纷由供方所在地人民法院管辖。')
     line_counter += 1
     worksheet.write_string(line_counter, 0, f'收款户名： {billing_info[3]}')
-    # worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[3]}')
+    worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[6]}')
     line_counter += 1
     worksheet.write_string(line_counter, 0, f'开户行： {billing_info[4]}')
-    # worksheet.write_string(line_counter, 4, f'开户行： {billing_info[4]}')
+    worksheet.write_string(line_counter, 4, f'开户行： {billing_info[7]}')
     line_counter += 1
     worksheet.write_string(line_counter, 0, f'账号： {billing_info[5]}')
-    # worksheet.write_string(line_counter, 4, f'账号： {billing_info[5]}')
+    worksheet.write_string(line_counter, 4, f'账号： {billing_info[8]}')
     line_counter += 1
     worksheet.write_string(line_counter, 0, '供货方')
     worksheet.write_string(line_counter, 4, '购货方')
