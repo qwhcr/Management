@@ -9,8 +9,8 @@ from calendar import monthrange
 import pathlib
 import csv
 
-col_name_t0_ZH = ['序号', '日期', '产品名称', '数量（吨）', '单价', '金额（元）', '车辆号码', '备注']
-col_name_t1_ZH = ['序号', '日期', '产品名称',  '数量（方）',  '单价', '金额（元）', '车辆号码', '备注']
+col_name_t0_ZH = ['序号', '日期', '产品名称', '数量(吨)', '单价', '金额(元)', '车辆号码', '备注']
+col_name_t1_ZH = ['序号', '日期', '产品名称',  '数量(方)',  '单价', '金额(元)', '车辆号码', '备注']
 
 TITLE_ROW = 5
 CONTENT_START_ROW = TITLE_ROW + 1
@@ -71,6 +71,12 @@ def export_file(data, year_month, customer, type):
         'valign': 'vcenter',
         'border': 1
     })
+    content_format_wb_align_small = workbook.add_format({
+        'font_size': 11,
+        'align': 'center',
+        'valign': 'vcenter',
+        'border': 1
+    })
     content_format_nb = workbook.add_format({
         'font_size': 12,
     })
@@ -110,7 +116,7 @@ def export_file(data, year_month, customer, type):
     })
     content_format_wb.set_num_format('#')
     content_format_wb_small = workbook.add_format({
-        'font_size': 10,
+        'font_size': 11,
         'border': 1
     })
     content_format_wb_small.set_num_format('#')
@@ -121,8 +127,8 @@ def export_file(data, year_month, customer, type):
     content_format_wb_keep_2_decimal.set_num_format('#0.00')
 
     worksheet.set_column(0, 0, 6)
-    worksheet.set_column(1, 1, 14)
-    worksheet.set_column(2, 2, 16)
+    worksheet.set_column(1, 1, 12)
+    worksheet.set_column(2, 2, 18)
     worksheet.set_column(3, 3, 9)
     worksheet.set_column(4, 4, 9)
     worksheet.set_column(5, 5, 12)
@@ -160,7 +166,7 @@ def export_file(data, year_month, customer, type):
         worksheet.write(line_counter, 3, i[6], content_format_wb_keep_2_decimal)
         worksheet.write(line_counter, 4, i[7], content_format_wb)
         worksheet.write_formula(line_counter, 5, f'=D{1+line_counter}*E{1+line_counter}', content_format_wb_keep_2_decimal)
-        worksheet.write_string(line_counter, 6, i[3], content_format_wb_align)
+        worksheet.write_string(line_counter, 6, i[3], content_format_wb_align_small)
         if i[8] == '无':
             worksheet.write_string(line_counter, 7, '', content_format_wb)
         else:
@@ -201,7 +207,7 @@ def export_file(data, year_month, customer, type):
     worksheet.write_string(line_counter, 0, '   以上每车签收的发货单原件已交还购货方，货款双方核对无误，请及时按期付清货款。')
     line_counter += 1
     worksheet.write_string(line_counter, 0, '若有纠纷由供方所在地人民法院管辖。')
-    line_counter += 1
+    line_counter += 2
     worksheet.write_string(line_counter, 0, f'收款户名： {billing_info[3]}')
     worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[6]}')
     line_counter += 1
