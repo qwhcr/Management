@@ -156,7 +156,7 @@ def export_file(data, year_month, customer, type):
         date = str(i[0]) + '/' + str(i[1]) + '/' + str(i[2])
         worksheet.write(line_counter, 0, index_counter, content_format_wb_align)
         worksheet.write_string(line_counter, 1, date, content_format_wb)
-        worksheet.write_string(line_counter, 2, i[4], content_format_wb)
+        worksheet.write_string(line_counter, 2, i[4], content_format_wb_small)
         worksheet.write(line_counter, 3, i[6], content_format_wb_keep_2_decimal)
         worksheet.write(line_counter, 4, i[7], content_format_wb)
         worksheet.write_formula(line_counter, 5, f'=D{1+line_counter}*E{1+line_counter}', content_format_wb_keep_2_decimal)
