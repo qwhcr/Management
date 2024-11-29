@@ -74,8 +74,17 @@ def export_file(data, year_month, customer, type):
     content_format_nb = workbook.add_format({
         'font_size': 12,
     })
+    content_format_nb_small = workbook.add_format({
+        'font_size': 11,
+    })
     content_format_ltb = workbook.add_format({
         'font_size': 12,
+        'top': 1,
+        'left': 1,
+        'bottom': 1
+    })
+    content_format_ltb_small = workbook.add_format({
+        'font_size': 10,
         'top': 1,
         'left': 1,
         'bottom': 1
@@ -100,6 +109,11 @@ def export_file(data, year_month, customer, type):
         'border': 1
     })
     content_format_wb.set_num_format('#')
+    content_format_wb_small = workbook.add_format({
+        'font_size': 10,
+        'border': 1
+    })
+    content_format_wb_small.set_num_format('#')
     content_format_wb_keep_2_decimal = workbook.add_format({
         'font_size': 12,
         'border': 1
@@ -107,25 +121,25 @@ def export_file(data, year_month, customer, type):
     content_format_wb_keep_2_decimal.set_num_format('#0.00')
 
     worksheet.set_column(0, 0, 6)
-    worksheet.set_column(1, 1, 16)
+    worksheet.set_column(1, 1, 14)
     worksheet.set_column(2, 2, 16)
     worksheet.set_column(3, 3, 9)
     worksheet.set_column(4, 4, 9)
     worksheet.set_column(5, 5, 12)
     worksheet.set_column(6, 6, 10)
-    worksheet.set_column(7, 7, 8)
+    worksheet.set_column(7, 7, 10)
 
     worksheet.merge_range(0, 0, 0, 7, '结算单', title_format)
     worksheet.merge_range(1, 0, 1, 7, f'{year_month[0]}年{year_month[1]}月', title_date_format)
     worksheet.merge_range(2, 0, 2, 7, f'客户：{customer}', content_format_nb)
-    worksheet.merge_range(3, 0, 3, 3, '您本期提货付款情况如下：')
+    worksheet.merge_range(3, 0, 3, 3, '您本期提货付款情况如下：', content_format_nb_small)
 
     worksheet.merge_range(3, 4, 3, 7,
                           f'结算期间：{year_month[0]}年{year_month[1]}月1日' +
                           f'至{year_month[0]}年{year_month[1]}月{monthrange(year_month[0], year_month[1])[1]}日',
-                          content_format_nb)
+                          content_format_nb_small)
 
-    worksheet.merge_range(4, 0, 4, 7, '提货明细：', content_format_nb)
+    worksheet.merge_range(4, 0, 4, 7, '提货明细：', content_format_nb_small)
 
     if type == 0:
         for i in range(0, 8):
@@ -162,7 +176,7 @@ def export_file(data, year_month, customer, type):
     #@code total_row_num used for 本月货款 formula
     total_row_num = line_counter + 1
     line_counter += 1
-    worksheet.merge_range(line_counter, 0, line_counter, 1, '本期货款: 大写人民币', content_format_ltb)
+    worksheet.merge_range(line_counter, 0, line_counter, 1, '本期货款: 大写人民币', content_format_ltb_small)
     worksheet.merge_range(line_counter, 2, line_counter, 4, f'''=SUBSTITUTE(SUBSTITUTE(TEXT(INT(F{line_counter}),
         "[DBNum2][$-804]G/通用格式元"&IF(INT(F{line_counter})=F{line_counter},"整",""))&TEXT(MID(F{line_counter},FIND("."
         ,F{line_counter}&".0")+1,1),"[DBNum2][$-804]G/通用格式角")&TEXT(MID(F{line_counter},FIND(".",F{line_counter}&".0
@@ -184,7 +198,9 @@ def export_file(data, year_month, customer, type):
     worksheet.write_formula(line_counter, 2, f'=C{line_counter-2}+C{line_counter-1}-C{line_counter}'
                             , content_format_wb_keep_2_decimal)
     line_counter += 1
-    worksheet.write_string(line_counter, 0, ' 以上每车签收的发货单原件已交还购货方，货款双方核对无误，请及时按期付清货款。若有纠纷由供方所在地人民法院管辖。')
+    worksheet.write_string(line_counter, 0, '   以上每车签收的发货单原件已交还购货方，货款双方核对无误，请及时按期付清货款。')
+    line_counter += 1
+    worksheet.write_string(line_counter, 0, '若有纠纷由供方所在地人民法院管辖。')
     line_counter += 1
     worksheet.write_string(line_counter, 0, f'收款户名： {billing_info[3]}')
     worksheet.write_string(line_counter, 4, f'收款户名： {billing_info[6]}')
